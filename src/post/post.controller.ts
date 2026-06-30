@@ -8,6 +8,7 @@ import {
   Put,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 // @ts-ignore
 import { Request as ExpressRequest } from 'express';
@@ -28,10 +29,13 @@ export class PostController {
   }
 
   @Public()
-  @Get()
-  findAll() {
-    return this.postService.findAll();
-  }
+@Get()
+findAll(
+  @Query('current') current: string,
+  @Query('pageSize') pageSize: string,
+) {
+  return this.postService.findAll(+current, +pageSize);
+}
 
   @Public()
   @Get(':id')
@@ -48,4 +52,6 @@ export class PostController {
   remove(@Param('id') id: string, @Request() req: ExpressRequest) {
     return this.postService.remove(id, req.user);
   }
+
+  
 }

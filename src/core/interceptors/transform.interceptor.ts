@@ -9,10 +9,9 @@ export class TransformInterceptor implements NestInterceptor {
       map((data) => ({
         statusCode: context.switchToHttp().getResponse().statusCode,
         message: data?.message || '',
-        data: {
-          ...data,
-          author: 'https://www.youtube.com/@hoidanit | Website: hoidanit.vn | Beyond Your Coding Skills',
-        },
+        data: Array.isArray(data)
+          ? data
+          : { ...data },
       })),
     );
   }

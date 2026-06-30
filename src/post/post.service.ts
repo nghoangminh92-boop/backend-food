@@ -63,5 +63,31 @@ export class PostService {
     }
     return this.model.deleteOne({ _id: id });
   }
+
+  async findAll(current: number, pageSize: number) {
+  current = current && current > 0 ? current : 1;
+  pageSize = pageSize && pageSize > 0 ? pageSize : 10;
+
+  const totalItems = await this.model.countDocuments();
+  const totalPages = Math.ceil(totalItems / pageSize);
+  const skip = (current - 1) * pageSize;
+
+  const result = await this.model
+    .find()
+    .select('_id title content image author userId avatar createdAt updatedAt')
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(pageSize);
+
+  return {
+    meta: {
+      current,
+      pageSize,
+      pages: totalPages,
+      total: totalItems,
+    },
+    result,
+  };
+}
 }
 
