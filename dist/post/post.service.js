@@ -24,9 +24,8 @@ let PostService = class PostService {
     create(dto, user) {
         return this.model.create({
             ...dto,
-            userId: user._id || user.userId,
-            author: dto.author || user.fullName || user.username || user.email,
-            avatar: dto.avatar || user.avatar || '',
+            userId: user.userId,
+            author: user.username,
             createdAt: new Date(),
             updatedAt: new Date(),
         });
