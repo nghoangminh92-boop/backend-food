@@ -18,12 +18,7 @@ export class PostService {
     updatedAt: new Date(),
   });
 }
-  findAll() {
-    return this.model
-      .find()
-      .select('_id title content image author userId avatar createdAt updatedAt')
-      .sort({ createdAt: -1 });
-  }
+
 
   async findOne(id: string) {
     const post = await this.model
