@@ -11,12 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentController = void 0;
 const common_1 = require("@nestjs/common");
-// @ts-ignore
-const express_1 = require("express");
 const public_decorator_1 = require("../auth/public.decorator");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const comment_service_1 = require("./comment.service");
@@ -45,7 +42,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_comment_dto_1.CreateCommentDto, typeof (_a = typeof express_1.Request !== "undefined" && express_1.Request) === "function" ? _a : Object]),
+    __metadata("design:paramtypes", [create_comment_dto_1.CreateCommentDto, Object]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "create", null);
 __decorate([
@@ -61,7 +58,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_comment_dto_1.UpdateCommentDto, typeof (_b = typeof express_1.Request !== "undefined" && express_1.Request) === "function" ? _b : Object]),
+    __metadata("design:paramtypes", [update_comment_dto_1.UpdateCommentDto, Object]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "update", null);
 __decorate([
@@ -69,7 +66,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, typeof (_c = typeof express_1.Request !== "undefined" && express_1.Request) === "function" ? _c : Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "remove", null);
 exports.CommentController = CommentController = __decorate([

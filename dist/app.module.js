@@ -16,6 +16,7 @@ const schedule_1 = require("@nestjs/schedule");
 const auth_module_1 = require("./auth/auth.module");
 const post_module_1 = require("./post/post.module");
 const comment_module_1 = require("./comment/comment.module");
+const file_module_1 = require("./file/file.module");
 require("dotenv/config");
 let AppModule = class AppModule {
 };
@@ -32,6 +33,7 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             post_module_1.PostModule,
             comment_module_1.CommentModule,
+            file_module_1.FileModule,
         ],
     })
 ], AppModule);

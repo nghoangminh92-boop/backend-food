@@ -7,6 +7,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
+import { FileModule } from './file/file.module';
 import 'dotenv/config';
 
 @Module({
@@ -20,6 +21,7 @@ import 'dotenv/config';
     AuthModule,
     PostModule,
     CommentModule,
+    FileModule,
   ],
 })
 export class AppModule {}
