@@ -3,7 +3,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './core/interceptors/transform.interceptor';
 // @ts-ignore
-import * as cookieParser from 'cookie-parser';
+const cookieParser = require('cookie-parser');
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { delayMiddleware } from './core/delay.middleware';
 import 'dotenv/config';
