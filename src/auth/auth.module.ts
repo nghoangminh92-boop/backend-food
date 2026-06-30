@@ -6,15 +6,16 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { UserSchema } from '../users/schemas/user.schema';
 
 @Module({
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'your-secret-key',
+      secret: process.env.JWT_ACCESS_SECRET || 'your-secret-key',
       signOptions: { expiresIn: '24h' },
     }),
-    MongooseModule.forFeature([{ name: 'User', schema: require('../users/schemas/user.schema').UserSchema }]),
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
   providers: [JwtStrategy, JwtAuthGuard, AuthService],
   controllers: [AuthController],
