@@ -1,0 +1,68 @@
+import { BadRequestException, Injectable, ForbiddenException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
+import { Post } from './schemas/post.schema';
+
+@Injectable()
+export class PostService {
+  constructor(@InjectModel(Post.name) private model: Model<Post>) {}
+
+  create(dto: CreatePostDto, user: any) {
+    return this.model.create({
+      ...dto,
+      userId: user.userId,
+      author: user.username,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
+
+  findAll() {
+    return this.model
+      .find()
+      .select('_id title content image author userId avatar createdAt updatedAt')
+      .sort({ createdAt: -1 });
+  }
+
+  async findOne(id: string) {
+    const post = await this.model
+      .findById(id)
+      .select('_id title content image author userId avatar createdAt updatedAt');
+    if (post) return post;
+    throw new BadRequestException(
+      `Post với id = ${id} không tồn tại trên hệ thống.`,
+    );
+  }
+
+  async update(dto: UpdatePostDto, user: any) {
+    const post = await this.model.findById(dto._id);
+    if (!post) {
+      throw new BadRequestException(
+        `Post với id = ${dto._id} không tồn tại trên hệ thống.`,
+      );
+    }
+    if (post.userId !== user.userId) {
+      throw new ForbiddenException('Bạn không có quyền sửa bài viết này');
+    }
+    return this.model.updateOne(
+      { _id: dto._id },
+      { ...dto, updatedAt: new Date() },
+    );
+  }
+
+  async remove(id: string, user: any) {
+    const post = await this.model.findById(id);
+    if (!post) {
+      throw new BadRequestException(
+        `Post với id = ${id} không tồn tại trên hệ thống.`,
+      );
+    }
+    if (post.userId !== user.userId) {
+      throw new ForbiddenException('Bạn không có quyền xóa bài viết này');
+    }
+    return this.model.deleteOne({ _id: id });
+  }
+}
+
