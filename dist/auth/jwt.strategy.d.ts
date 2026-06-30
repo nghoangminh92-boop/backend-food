@@ -4,7 +4,7 @@ export declare class JwtStrategy extends JwtStrategy_base {
     validate(payload: any): {
         userId: any;
         email: any;
-        username: any;
+        fullName: any;
     };
 }
 export {};

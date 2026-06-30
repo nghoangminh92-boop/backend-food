@@ -9,16 +9,15 @@ import { Post } from './schemas/post.schema';
 export class PostService {
   constructor(@InjectModel(Post.name) private model: Model<Post>) {}
 
-  create(dto: CreatePostDto, user: any) {
-    return this.model.create({
-      ...dto,
-      userId: user.userId,
-      author: user.username,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-  }
-
+ create(dto: CreatePostDto, user: any) {
+  return this.model.create({
+    ...dto,
+    userId: user.userId,
+    author: user.fullName,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+}
   findAll() {
     return this.model
       .find()

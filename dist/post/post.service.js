@@ -25,7 +25,7 @@ let PostService = class PostService {
         return this.model.create({
             ...dto,
             userId: user.userId,
-            author: user.username,
+            author: user.fullName,
             createdAt: new Date(),
             updatedAt: new Date(),
         });
