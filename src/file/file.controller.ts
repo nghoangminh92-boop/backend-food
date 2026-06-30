@@ -13,7 +13,7 @@ import { extname } from 'path';
 export class FileController {
   @Post('upload')
   @UseInterceptors(
-    FileInterceptor('file', {
+    FileInterceptor('fileImg', {
       storage: diskStorage({
         destination: './public/images',
         filename: (req, file, callback) => {
@@ -30,7 +30,7 @@ export class FileController {
         }
         callback(null, true);
       },
-      limits: { fileSize: 5 * 1024 * 1024 }, // giới hạn 5MB
+      limits: { fileSize: 5 * 1024 * 1024 },
     }),
   )
   uploadFile(@UploadedFile() file: Express.Multer.File) {

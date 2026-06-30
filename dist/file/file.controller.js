@@ -31,7 +31,7 @@ let FileController = class FileController {
 exports.FileController = FileController;
 __decorate([
     (0, common_1.Post)('upload'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('fileImg', {
         storage: (0, multer_1.diskStorage)({
             destination: './public/images',
             filename: (req, file, callback) => {
@@ -48,7 +48,7 @@ __decorate([
             }
             callback(null, true);
         },
-        limits: { fileSize: 5 * 1024 * 1024 }, // giới hạn 5MB
+        limits: { fileSize: 5 * 1024 * 1024 },
     })),
     __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
