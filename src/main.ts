@@ -2,7 +2,6 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './core/interceptors/transform.interceptor';
-// @ts-ignore
 const cookieParser = require('cookie-parser');
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { delayMiddleware } from './core/delay.middleware';
@@ -10,7 +9,12 @@ import 'dotenv/config';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 8000;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bodyParser: true,
+  });
+
+  app.use(require('express').json({ limit: '10mb' }));
+  app.use(require('express').urlencoded({ limit: '10mb', extended: true }));
 
   app.enableCors({
     origin: true,
