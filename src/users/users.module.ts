@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
 import { FileModule } from './file/file.module';
+import { UsersModule } from './users/users.module';
 import 'dotenv/config';
 
 @Module({
@@ -22,14 +23,7 @@ import 'dotenv/config';
     PostModule,
     CommentModule,
     FileModule,
+    UsersModule,
   ],
-  import { UsersModule } from './users/users.module'; // thêm dòng này
-
-@Module({
-  imports: [
-    // ... các module cũ giữ nguyên
-    UsersModule, // thêm dòng này
-  ],
-})
 })
 export class AppModule {}
