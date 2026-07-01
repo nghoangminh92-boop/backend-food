@@ -11,7 +11,7 @@ export class TransformInterceptor implements NestInterceptor {
         message: data?.message || '',
         data: Array.isArray(data)
           ? data
-          : { ...data },
+          : data?.toObject?.() ?? data,
       })),
     );
   }
