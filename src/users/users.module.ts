@@ -1,29 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CoreModule } from './core/core.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
-import { ScheduleModule } from '@nestjs/schedule';
-import { AuthModule } from './auth/auth.module';
-import { PostModule } from './post/post.module';
-import { CommentModule } from './comment/comment.module';
-import { FileModule } from './file/file.module';
-import { UsersModule } from './users/users.module';
-import 'dotenv/config';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+import { User, UserSchema } from './schemas/user.schema';
 
 @Module({
-  imports: [
-    CoreModule,
-    MongooseModule.forRoot(process.env.MONGO_DB_URL || 'mongodb://localhost/test'),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-    }),
-    ScheduleModule.forRoot(),
-    AuthModule,
-    PostModule,
-    CommentModule,
-    FileModule,
-    UsersModule,
-  ],
+  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
+  controllers: [UsersController],
+  providers: [UsersService],
+  exports: [UsersService],
 })
-export class AppModule {}
+export class UsersModule {}
