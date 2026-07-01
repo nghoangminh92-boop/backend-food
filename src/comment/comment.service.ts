@@ -9,14 +9,14 @@
   export class CommentService {
     constructor(@InjectModel(Comment.name) private model: Model<Comment>) {}
 
-    create(dto: CreateCommentDto, user: any) {
-      return this.model.create({
-        ...dto,
-        userId: user.userId,
-        user: user.username,
-        createdAt: new Date(),
-      });
-    }
+   create(dto: CreateCommentDto, user: any) {
+  return this.model.create({
+    ...dto,
+    userId: user.userId,
+    user: user.fullName || user.username || 'Anonymous',
+    createdAt: new Date(),
+  });
+}
 
     findByPost(postId: string) {
       return this.model
