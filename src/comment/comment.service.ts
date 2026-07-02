@@ -33,9 +33,9 @@
           `Comment với id = ${dto._id} không tồn tại trên hệ thống.`,
         );
       }
-      if (comment.userId !== user.userId) {
-        throw new ForbiddenException('Bạn không có quyền sửa bình luận này');
-      }
+      if (comment.userId !== user.userId && user.role !== 'ADMIN') {
+  throw new ForbiddenException('Bạn không có quyền sửa bình luận này');
+}
       return this.model.updateOne({ _id: dto._id }, { ...dto });
     }
 
@@ -46,9 +46,9 @@
           `Comment với id = ${id} không tồn tại trên hệ thống.`,
         );
       }
-      if (comment.userId !== user.userId) {
-        throw new ForbiddenException('Bạn không có quyền xóa bình luận này');
-      }
+      if (comment.userId !== user.userId && user.role !== 'ADMIN') {
+  throw new ForbiddenException('Bạn không có quyền xóa bình luận này');
+}
       return this.model.deleteOne({ _id: id });
     }
   }
