@@ -14,6 +14,7 @@ export class PostService {
     ...dto,
     userId: user.userId,
     author: user.fullName,
+    avatar: user.avatar || '',
     createdAt: new Date(),
     updatedAt: new Date(),
   });
