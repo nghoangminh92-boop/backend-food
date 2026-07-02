@@ -9,11 +9,12 @@
   export class CommentService {
     constructor(@InjectModel(Comment.name) private model: Model<Comment>) {}
 
-   create(dto: CreateCommentDto, user: any) {
+  create(dto: CreateCommentDto, user: any) {
   return this.model.create({
     ...dto,
     userId: user.userId,
     user: user.fullName || user.username || 'Anonymous',
+    avatar: user.avatar || '',
     createdAt: new Date(),
   });
 }
