@@ -32,33 +32,26 @@ export class PostService {
   }
 
   async update(dto: UpdatePostDto, user: any) {
-    const post = await this.model.findById(dto._id);
-    if (!post) {
-      throw new BadRequestException(
-        `Post với id = ${dto._id} không tồn tại trên hệ thống.`,
-      );
-    }
-    if (post.userId !== user.userId) {
-      throw new ForbiddenException('Bạn không có quyền sửa bài viết này');
-    }
-    return this.model.updateOne(
-      { _id: dto._id },
-      { ...dto, updatedAt: new Date() },
-    );
+  const post = await this.model.findById(dto._id);
+  if (!post) {
+    throw new BadRequestException(`Post với id = ${dto._id} không tồn tại`);
   }
+  if (post.userId !== user.userId && user.role !== 'ADMIN') {
+    throw new ForbiddenException('Bạn không có quyền sửa bài viết này');
+  }
+  return this.model.updateOne({ _id: dto._id }, { ...dto, updatedAt: new Date() });
+}
 
-  async remove(id: string, user: any) {
-    const post = await this.model.findById(id);
-    if (!post) {
-      throw new BadRequestException(
-        `Post với id = ${id} không tồn tại trên hệ thống.`,
-      );
-    }
-    if (post.userId !== user.userId) {
-      throw new ForbiddenException('Bạn không có quyền xóa bài viết này');
-    }
-    return this.model.deleteOne({ _id: id });
+ async remove(id: string, user: any) {
+  const post = await this.model.findById(id);
+  if (!post) {
+    throw new BadRequestException(`Post với id = ${id} không tồn tại`);
   }
+  if (post.userId !== user.userId && user.role !== 'ADMIN') {
+    throw new ForbiddenException('Bạn không có quyền xóa bài viết này');
+  }
+  return this.model.deleteOne({ _id: id });
+}
 
   async findAll(current: number, pageSize: number) {
   current = current && current > 0 ? current : 1;
