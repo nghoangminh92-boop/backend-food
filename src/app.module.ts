@@ -9,6 +9,7 @@ import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
 import { FileModule } from './file/file.module';
 import { UsersModule } from './users/users.module';
+import { RatingModule } from './rating/rating.module';
 import 'dotenv/config';
 
 @Module({
@@ -24,6 +25,7 @@ import 'dotenv/config';
     CommentModule,
     FileModule,
     UsersModule,
+    RatingModule,
   ],
 })
 export class AppModule {}
