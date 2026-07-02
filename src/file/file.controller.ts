@@ -6,22 +6,24 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+import { memoryStorage } from 'multer';
+import { Public } from '../auth/public.decorator';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 @Controller('file')
 export class FileController {
+  @Public()
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('fileImg', {
-      storage: diskStorage({
-        destination: './public/images',
-        filename: (req, file, callback) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          callback(null, `${uniqueSuffix}${ext}`);
-        },
-      }),
+      storage: memoryStorage(),
       fileFilter: (req, file, callback) => {
         const allowedTypes = ['.jpg', '.jpeg', '.png', '.webp'];
         const ext = extname(file.originalname).toLowerCase();
@@ -30,16 +32,25 @@ export class FileController {
         }
         callback(null, true);
       },
-      limits: { fileSize: 5 * 1024 * 1024 },
+      limits: { fileSize: 10 * 1024 * 1024 },
     }),
   )
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
     if (!file) {
       throw new BadRequestException('No file uploaded');
     }
-    return {
-      fileName: file.filename,
-      url: `/images/${file.filename}`,
-    };
+
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        { folder: 'food-review' },
+        (error, result) => {
+          if (error) return reject(new BadRequestException(error.message));
+          resolve({
+            fileName: result.public_id,
+            url: result.secure_url,
+          });
+        },
+      ).end(file.buffer);
+    });
   }
 }
